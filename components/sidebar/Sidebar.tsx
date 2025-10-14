@@ -92,7 +92,7 @@ const Page = () => {
   return (
     <div className={style.overFlowControl}>
       <div className={style.sideContainer}>
-        {/* Logo and Role-based Header */}
+        {/* Logo and Header */}
         <div className={style.logoName} onClick={() => {
           router.push("/dashboard")
         }}>
