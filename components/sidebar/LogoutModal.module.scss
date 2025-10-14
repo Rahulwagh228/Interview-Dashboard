@@ -1,0 +1,144 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-out;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  
+  .iconWrapper {
+    background-color: #f3f4f6;
+    padding: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: #f3f4f6;
+      color: #374151;
+    }
+  }
+}
+
+.modalContent {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  
+  h3 {
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 0 0 0.5rem 0;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+  
+  .subText {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+  }
+}
+
+.confirmButton {
+  padding: 0.5rem 1rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: #b91c1c;
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./sidebar.module.scss";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/useAuth";
+import LogoutModal from "./LogoutModal";
 
 const Page = () => {
   const path = usePathname();
@@ -13,6 +14,7 @@ const Page = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { getUserRole, getRoleDisplayName, getUserDisplayName, logout, isAuthenticated } = useAuth();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // Define navigation items with role-based access
   const navigationItems = [
@@ -82,7 +84,16 @@ const Page = () => {
   const headingConfig = getRoleBasedHeading();
 
   const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutModal(false);
     logout();
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
   if (!isAuthenticated()) {
@@ -135,8 +146,10 @@ const Page = () => {
               </abbr>
             </div>
           ))}
-          
-          {/* Logout Button */}
+        </div>
+        
+        {/* Logout Button - Fixed at bottom */}
+        <div className={style.logoutSection}>
           <div className={style.logoWrapper}>
             <div className={style.indicatorline}></div>
             <abbr title="Logout">
@@ -144,13 +157,21 @@ const Page = () => {
                 onClick={handleLogout}
                 className={`${style.logo} ${style.logoutButton}`}
               >
-                <LogOut size={20} color="white" />
+                <LogOut size={20} color="#ff6b6b" />
                 <span>Logout</span>
               </div>
             </abbr>
           </div>
         </div>
       </div>
+      
+      {/* Logout Confirmation Modal */}
+      <LogoutModal 
+        isOpen={showLogoutModal}
+        onClose={cancelLogout}
+        onConfirm={confirmLogout}
+        userName={getUserDisplayName()}
+      />
     </div>
   );
 };
