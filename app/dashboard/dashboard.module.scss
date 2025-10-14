@@ -136,6 +136,37 @@ $font-weights: (
   }
 }
 
+// Chart-specific styling
+.chartCard {
+  grid-column: span 2;
+  min-height: 400px;
+
+  @include mobile-responsive {
+    grid-column: span 1;
+    min-height: 300px;
+  }
+}
+
+.chartContainer {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  margin-top: map-get($spacing, sm);
+
+  @include mobile-responsive {
+    height: 250px;
+  }
+}
+
+.noData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: map-get($colors, tertiary);
+  font-style: italic;
+}
+
 // Stats components
 .statsGrid {
   @include grid-responsive(150px);
