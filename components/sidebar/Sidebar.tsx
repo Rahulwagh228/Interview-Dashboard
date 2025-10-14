@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import style from "./sidebar.module.scss";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { CircleUserRound } from "lucide-react";
 
 const Page = () => {
   const path = usePathname();
@@ -18,8 +19,8 @@ const Page = () => {
     },
     {
       title: "All Students",
-      icon: "/icons/postDatailsIcon.svg",
-      link: "allposts",
+      icon: "/icons/studentsIcon.svg",
+      link: "students",
       role: ["Admin"],
     }
   ];
@@ -44,9 +45,9 @@ const Page = () => {
     <div className={style.overFlowControl}>
       <div className={style.sideContainer}>
         <div className={style.logoName} onClick={()=>{
-          router.push("/newadmin/dashboard")
+          router.push("/dashboard")
         }}>
-          <img src={"/adminassets/writeyfyWlogo.svg"} alt="" />
+          {/* <img src={"/adminassets/writeyfyWlogo.svg"} alt="" /> */}
           <div className={style.absOverflow}>
             <div className={style.line}></div>
             <span>Admin</span>
