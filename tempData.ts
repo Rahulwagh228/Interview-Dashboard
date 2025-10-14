@@ -1,4 +1,4 @@
-export const GraphData = [
+export const LineGraphData = [
      {
         "2024-July": "8",
         "2024-August": "27",

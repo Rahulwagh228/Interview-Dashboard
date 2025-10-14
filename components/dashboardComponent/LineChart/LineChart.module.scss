@@ -1,0 +1,19 @@
+// components/LineChart.module.scss
+.chart {
+    max-width: 100%;
+    height: 400px;
+  }
+  
+  .legend {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  
+    .legend-box {
+      width: 15px;
+      height: 15px;
+      background-color: rgba(128, 0, 128, 0.4);
+      margin-right: 5px;
+    }
+  }
+  
