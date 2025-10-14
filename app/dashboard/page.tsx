@@ -43,8 +43,8 @@ const Page = () => {
       {
         label: "Monthly Users",
         data: data, // Using extracted user data
-        borderColor: "#7f3a73",
-        pointBackgroundColor: "#7f3a73",
+        borderColor: "#ffffffff",
+        pointBackgroundColor: "#ffffffff",
         pointRadius: 5,
         fill: false, // Do not fill directly below this line
         borderWidth: 2,
@@ -68,8 +68,8 @@ const Page = () => {
       {
         label: "Quarterly Performance",
         data: barData,
-        backgroundColor: "rgba(127, 58, 115, 0.8)",
-        borderColor: "#7f3a73",
+        backgroundColor: "rgba(240, 240, 240, 0.8)",
+        borderColor: "#ffffffff",
         borderWidth: 1,
       },
     ],

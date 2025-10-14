@@ -57,7 +57,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         titleColor: '#fff',
         bodyColor: '#fff',
-        borderColor: '#7f3a73',
+        borderColor: '#ffffffff',
         borderWidth: 1,
       },
       legend: {
@@ -67,7 +67,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
           usePointStyle: true,
           pointStyle: 'circle',
           padding: 20,
-          color: '#374151',
+          color: '#ffffffff',
           font: {
             size: 12,
             weight: 'normal' as const,
