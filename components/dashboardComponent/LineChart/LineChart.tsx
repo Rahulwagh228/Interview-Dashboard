@@ -12,6 +12,7 @@ import {
   Tooltip,
   Filler,
   Legend,
+  TooltipItem,
 } from 'chart.js';
 import styles from './LineChart.module.scss'; // Import SCSS styles
 
@@ -50,8 +51,8 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
     plugins: {
       tooltip: {
         callbacks: {
-          label: function (tooltipItem: any) {
-            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} Users`;
+          label: function (tooltipItem: TooltipItem<'line'>) {
+            return `${tooltipItem.dataset.label || ''}: ${tooltipItem.raw} Users`;
           },
         },
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -99,8 +100,8 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
           font: {
             size: 11,
           },
-          callback: function(value: any) {
-            return value.toLocaleString();
+          callback: function(value: number | string) {
+            return typeof value === 'number' ? value.toLocaleString() : value;
           },
         },
       },

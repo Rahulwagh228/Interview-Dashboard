@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ const StudentsPage = () => {
   }
 }
 
-  const loadUsers = async (page: number) => {
+  const loadUsers = useCallback(async (page: number) => {
     try {
       setLoading(true);
       setError(null);
@@ -49,11 +49,11 @@ const StudentsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [usersPerPage]);
 
   useEffect(() => {
     loadUsers(currentPage);
-  }, [currentPage]);
+  }, [currentPage, loadUsers]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {

@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipItem,
 } from 'chart.js';
 import styles from './BarChart.module.scss';
 
@@ -41,8 +42,8 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     plugins: {
       tooltip: {
         callbacks: {
-          label: function (tooltipItem: any) {
-            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+          label: function (tooltipItem: TooltipItem<'bar'>) {
+            return `${tooltipItem.dataset.label || ''}: ${tooltipItem.raw}`;
           },
         },
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -87,8 +88,8 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
           font: {
             size: 11,
           },
-          callback: function(value: any) {
-            return value.toLocaleString();
+          callback: function(value: number | string) {
+            return typeof value === 'number' ? value.toLocaleString() : value;
           },
         },
       },

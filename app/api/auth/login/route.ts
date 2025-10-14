@@ -26,10 +26,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as Error & { status?: number };
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: error.status || 500 }
+      { status: err.status || 500 }
     );
   }
 }
