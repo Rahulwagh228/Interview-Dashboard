@@ -46,10 +46,6 @@ export const useAuth = () => {
     return !!user;
   };
 
-  const hasRole = (allowedRoles: string[]): boolean => {
-    const userRole = getUserRole();
-    return allowedRoles.includes(userRole);
-  };
 
   const logout = () => {
     localStorage.removeItem('userData');
@@ -86,7 +82,6 @@ export const useAuth = () => {
     isLoading,
     getUserRole,
     isAuthenticated,
-    hasRole,
     logout,
     getRoleDisplayName,
     getUserDisplayName

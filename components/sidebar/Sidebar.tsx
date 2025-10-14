@@ -12,7 +12,7 @@ const Page = () => {
   const allRedirects = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const { getUserRole, getRoleDisplayName, getUserDisplayName, logout, hasRole, isAuthenticated } = useAuth();
+  const { getUserRole, getRoleDisplayName, getUserDisplayName, logout, isAuthenticated } = useAuth();
 
   // Define navigation items with role-based access
   const navigationItems = [
