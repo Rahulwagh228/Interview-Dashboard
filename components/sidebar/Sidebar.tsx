@@ -3,60 +3,118 @@ import React, { useEffect, useRef } from "react";
 import style from "./sidebar.module.scss";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, LogOut } from "lucide-react";
+import { useAuth } from "@/lib/useAuth";
 
 const Page = () => {
   const path = usePathname();
   const tracker = useRef<HTMLDivElement>(null);
+  const allRedirects = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const pathname=usePathname()
-  const list = [
+  const pathname = usePathname();
+  const { getUserRole, getRoleDisplayName, getUserDisplayName, logout, hasRole, isAuthenticated } = useAuth();
+
+  // Define navigation items with role-based access
+  const navigationItems = [
     {
       title: "Dashboard",
       icon: "/icons/dashboardSidebar.svg",
       link: "dashboard",
-      role: ["Admin"],
+      roles: ["ta_admin", "ta_member", "panelist"],
     },
     {
       title: "All Students",
       icon: "/icons/studentsIcon.svg",
       link: "students",
-      role: ["Admin"],
+      roles: ["ta_admin", "ta_member"],
+    },
+    {
+      title: "Interview Panel",
+      icon: "/icons/panelIcon.svg",
+      link: "panel",
+      roles: ["panelist", "ta_admin"],
+    },
+     ];
+
+  // Filter navigation items based on user role
+  const userRole = getUserRole();
+  const filteredList = navigationItems.filter(item => item.roles.includes(userRole));
+
+  useEffect(() => {
+    const currentPath = path.split("/").at(-1);
+    const currentIndex = filteredList.findIndex(item => item.link === currentPath);
+    if (tracker.current && allRedirects.current && currentIndex !== -1) {
+      const itemElements = allRedirects.current.children;
+      if (itemElements.length > 1) { // +1 because tracker is first child
+        const targetElement = itemElements[currentIndex + 1] as HTMLElement;
+        const topPosition = targetElement.offsetTop;
+        tracker.current.style.top = `${topPosition}px`;
+      }
     }
-  ];
+  }, [path, filteredList]);
 
-//   const userRole = getUserRole() || "";
-//   const filteredList = list.filter(item => item.role.includes(userRole));
+  // Role-based heading configuration
+  const getRoleBasedHeading = () => {
+    switch (userRole) {
+      case 'ta_admin':
+        return {
+          title: 'TA Admin Panel',
+          subtitle: 'Administrative Dashboard'
+        };
+      case 'ta_member':
+        return {
+          title: 'TA Dashboard',
+          subtitle: 'Teaching Assistant Portal'
+        };
+      case 'panelist':
+        return {
+          title: 'Interview Panel',
+          subtitle: 'Panelist Dashboard'
+        };
+      default:
+        return {
+          title: 'Dashboard',
+          subtitle: 'User Portal'
+        };
+    }
+  };
 
-//   useEffect(() => {
-//     const currentPath = path.split("/").at(-1);
-//     const currentIndex = filteredList.findIndex(item => item.link === currentPath)+1;
-//     if (tracker.current && allRedirects.current && currentIndex !== -1) {
-//       const itemElements = allRedirects.current.children;
-//       if (itemElements.length > 0) {
-//         const targetElement = itemElements[currentIndex] as HTMLElement;
-//         const topPosition = targetElement.offsetTop;
-//         tracker.current.style.top = `${topPosition}px`;
-//       }
-//     }
-//   }, [path]);
+  const headingConfig = getRoleBasedHeading();
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  if (!isAuthenticated()) {
+    return null; // Don't render sidebar if not authenticated
+  }
 
   return (
     <div className={style.overFlowControl}>
       <div className={style.sideContainer}>
-        <div className={style.logoName} onClick={()=>{
+        {/* Logo and Role-based Header */}
+        <div className={style.logoName} onClick={() => {
           router.push("/dashboard")
         }}>
-          {/* <img src={"/adminassets/writeyfyWlogo.svg"} alt="" /> */}
+          <CircleUserRound size={24} color="white" />
           <div className={style.absOverflow}>
             <div className={style.line}></div>
-            <span>Admin</span>
+            <span>{getRoleDisplayName()}</span>
           </div>
         </div>
+        
+        {/* User Info Section */}
+        <div className={style.userInfo}>
+          <div className={style.userName}>{getUserDisplayName()}</div>
+          <div className={style.userRole}>{headingConfig.subtitle}</div>
+        </div>
+        
         <div className={style.line}></div>
-        <div className={style.allRedirects} >
+        
+        {/* Navigation Items */}
+        <div className={style.allRedirects} ref={allRedirects}>
           <div className={style.tracker} ref={tracker}></div>
-          {list.map((item, index) => (
+          {filteredList.map((item, index) => (
             <div
               key={index}
               className={`${style.logoWrapper} ${
@@ -71,12 +129,26 @@ const Page = () => {
                   }}
                   className={style.logo}
                 >
-                  <img src={item.icon} alt="" />
-                  <span style={item.title === "WriteyfyReady" ? { color: "#eea828" } : {}}>{item.title}</span>
+                  <img src={item.icon} alt={item.title} />
+                  <span>{item.title}</span>
                 </div>
               </abbr>
             </div>
           ))}
+          
+          {/* Logout Button */}
+          <div className={style.logoWrapper}>
+            <div className={style.indicatorline}></div>
+            <abbr title="Logout">
+              <div
+                onClick={handleLogout}
+                className={`${style.logo} ${style.logoutButton}`}
+              >
+                <LogOut size={20} color="white" />
+                <span>Logout</span>
+              </div>
+            </abbr>
+          </div>
         </div>
       </div>
     </div>
