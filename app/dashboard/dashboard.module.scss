@@ -68,7 +68,6 @@ $font-weights: (
 
 .mainContent {
   flex: 1;
-  margin-left: $sidebar-width;
   padding: map-get($spacing, lg);
   background-color: map-get($colors, background);
   min-height: 100vh;
