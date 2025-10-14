@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Copy, Lock } from "lucide-react"
+import { Copy, Lock, Check } from "lucide-react"
 import { toast } from "sonner"
 import CredentialsModal from './CredentialsModal'
 
@@ -23,10 +23,19 @@ const TestCredentialsCard: React.FC<TestCredentialsCardProps> = ({
   onCredentialSelect
 }) => {
   const [showAllCredentials, setShowAllCredentials] = useState(false);
+  const [copiedStates, setCopiedStates] = useState<{[key: string]: boolean}>({});
 
-  const copyToClipboard = (text: string, type: string) => {
+  const copyToClipboard = (text: string, type: string, itemId: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${type} copied to clipboard!`);
+    
+    // Set copied state for this specific item
+    setCopiedStates(prev => ({ ...prev, [itemId]: true }));
+    
+    // Reset the copied state after 2 seconds
+    setTimeout(() => {
+      setCopiedStates(prev => ({ ...prev, [itemId]: false }));
+    }, 2000);
   };
 
   const fillCredentials = (credential: Credential) => {
@@ -72,10 +81,14 @@ const TestCredentialsCard: React.FC<TestCredentialsCardProps> = ({
                       className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={(e) => {
                         e.stopPropagation();
-                        copyToClipboard(cred.username, 'Username');
+                        copyToClipboard(cred.username, 'Username', `${cred.id}-username`);
                       }}
                     >
-                      <Copy className="h-3 w-3" />
+                      {copiedStates[`${cred.id}-username`] ? (
+                        <Check className="h-3 w-3 text-green-600 transition-all duration-200" />
+                      ) : (
+                        <Copy className="h-3 w-3 transition-all duration-200" />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -89,10 +102,14 @@ const TestCredentialsCard: React.FC<TestCredentialsCardProps> = ({
                       className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={(e) => {
                         e.stopPropagation();
-                        copyToClipboard(cred.password, 'Password');
+                        copyToClipboard(cred.password, 'Password', `${cred.id}-password`);
                       }}
                     >
-                      <Copy className="h-3 w-3" />
+                      {copiedStates[`${cred.id}-password`] ? (
+                        <Check className="h-3 w-3 text-green-600 transition-all duration-200" />
+                      ) : (
+                        <Copy className="h-3 w-3 transition-all duration-200" />
+                      )}
                     </Button>
                   </div>
                 </div>

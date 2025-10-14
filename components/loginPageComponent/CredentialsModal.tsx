@@ -1,8 +1,8 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Copy } from "lucide-react"
+import { Copy, Check } from "lucide-react"
 import { toast } from "sonner"
 
 interface Credential {
@@ -25,9 +25,19 @@ const CredentialsModal: React.FC<CredentialsModalProps> = ({
   onOpenChange,
   onCredentialSelect
 }) => {
-  const copyToClipboard = (text: string, type: string) => {
+  const [copiedStates, setCopiedStates] = useState<{[key: string]: boolean}>({});
+
+  const copyToClipboard = (text: string, type: string, itemId: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${type} copied to clipboard!`);
+    
+    // Set copied state for this specific item
+    setCopiedStates(prev => ({ ...prev, [itemId]: true }));
+    
+    // Reset the copied state after 2 seconds
+    setTimeout(() => {
+      setCopiedStates(prev => ({ ...prev, [itemId]: false }));
+    }, 2000);
   };
 
   const handleCredentialClick = (credential: Credential) => {
@@ -74,10 +84,14 @@ const CredentialsModal: React.FC<CredentialsModalProps> = ({
                       className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={(e) => {
                         e.stopPropagation();
-                        copyToClipboard(cred.username, 'Username');
+                        copyToClipboard(cred.username, 'Username', `modal-${cred.id}-username`);
                       }}
                     >
-                      <Copy className="h-3 w-3" />
+                      {copiedStates[`modal-${cred.id}-username`] ? (
+                        <Check className="h-3 w-3 text-green-600 transition-all duration-200" />
+                      ) : (
+                        <Copy className="h-3 w-3 transition-all duration-200" />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -91,10 +105,14 @@ const CredentialsModal: React.FC<CredentialsModalProps> = ({
                       className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={(e) => {
                         e.stopPropagation();
-                        copyToClipboard(cred.password, 'Password');
+                        copyToClipboard(cred.password, 'Password', `modal-${cred.id}-password`);
                       }}
                     >
-                      <Copy className="h-3 w-3" />
+                      {copiedStates[`modal-${cred.id}-password`] ? (
+                        <Check className="h-3 w-3 text-green-600 transition-all duration-200" />
+                      ) : (
+                        <Copy className="h-3 w-3 transition-all duration-200" />
+                      )}
                     </Button>
                   </div>
                 </div>

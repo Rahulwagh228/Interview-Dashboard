@@ -97,7 +97,7 @@ const LoginPage = () => {
         {/* Login Form */}
         <Card className="w-full max-w-md mx-auto shadow-xl">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-gray-800 to-gray-700 bg-clip-text ">
               Welcome Back
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
@@ -167,17 +167,17 @@ const LoginPage = () => {
           <CardFooter>
             <Button 
               type="submit" 
-              className="w-full h-11 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+              className="w-full h-11 bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-900 hover:to-gray-800 transition-all duration-200"
               disabled={loading}
               onClick={handleSubmit}
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Signing In...</span>
+                  <span className="text-white">Signing In...</span>
                 </div>
               ) : (
-                'Sign In'
+                <span className="text-white">Sign In</span>
               )}
             </Button>
           </CardFooter>
