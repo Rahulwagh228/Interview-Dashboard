@@ -26,7 +26,8 @@ const StudentsPage = () => {
 
    async function fetchUsers(limit: number = 30, skip: number = 0): Promise<UsersResponse> {
   try {
-    const response = await fetch(`https://dummyjson.com/users?limit=${limit}&skip=${skip}`);
+    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/users";
+    const response = await fetch(`${apiUrl}?limit=${limit}&skip=${skip}`);
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -42,7 +43,8 @@ const StudentsPage = () => {
 
   async function searchUsers(query: string): Promise<UsersResponse> {
     try {
-      const response = await fetch(`https://dummyjson.com/users/search?q=${encodeURIComponent(query)}`);
+      const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/users/search" ;
+      const response = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
