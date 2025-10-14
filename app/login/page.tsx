@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from 'react'
-import './login.css'
+import './login.scss'
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    role: 'user'
+    role: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,15 +41,15 @@ const LoginPage = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Store user data and role in localStorage
+    
       const userData = {
         ...data,
-        role: formData.role // Add selected role to user data
+        role: formData.role 
       };
       localStorage.setItem('userData', JSON.stringify(userData));
 
       // Redirect or handle successful login
-      window.location.href = '/dashboard'; // Adjust based on your routing setup
+      window.location.href = '/dashboard'; 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -93,9 +93,10 @@ const LoginPage = () => {
               onChange={handleChange}
               required
             >
-              <option value="user">ta_member</option>
-              <option value="admin">ta_admin</option>
-              <option value="moderator">panelist</option>
+              <option value="" disabled>Select Role</option>
+              <option value="ta_member">TA Member</option>
+              <option value="ta_admin">TA Admin</option>
+              <option value="panelist">Panelist</option>
             </select>
           </div>
           <button 
@@ -106,9 +107,7 @@ const LoginPage = () => {
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-        <p className="login-footer">
-          Don't have an account? <a href="#">Sign up</a>
-        </p>
+      
       </div>
     </div>
   )
