@@ -9,8 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from 'next/navigation'
-import TestCredentialsCard from '@/components/login/TestCredentialsCard'
-import { testCredentials, type Credential } from '@/components/login/testCredentials'
+import TestCredentialsCard from '@/components/loginPageComponent/TestCredentialsCard'
+import { testCredentials, type Credential } from '@/components/loginPageComponent/testCredentials'
 
 
 const LoginPage = () => {
