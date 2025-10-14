@@ -25,15 +25,14 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://dummyjson.com/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: formData.username,
           password: formData.password,
           expiresInMins: 30,
-        }),
-        credentials: 'include'
+        })
       });
 
       const data = await response.json();
@@ -107,7 +106,9 @@ const LoginPage = () => {
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-      
+        <p className="login-footer">
+          Don't have an account? <a href="#">Sign up</a>
+        </p>
       </div>
     </div>
   )
