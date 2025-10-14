@@ -1,19 +1,12 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import style from "./sidebar.module.scss";
-import logo from "@/public/logo/whitelogo.svg";
-import Image from "next/image";
-import Link from "next/link";
-import logoutIcon from "@/public/icons/logOutIcon.svg";
 import { usePathname } from "next/navigation";
-// import { useAuth } from "@/authentication/authentication";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
   const path = usePathname();
-//   const { getUserRole } = ;
   const tracker = useRef<HTMLDivElement>(null);
-  const allRedirects = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname=usePathname()
   const list = [
@@ -24,82 +17,10 @@ const Page = () => {
       role: ["Admin"],
     },
     {
-      title: "All Posts",
+      title: "All Students",
       icon: "/icons/postDatailsIcon.svg",
       link: "allposts",
       role: ["Admin"],
-    },
-    {
-      title: "Users",
-      icon: "/icons/users.svg",
-      link: "alluser",
-      role: ["Admin"],
-    },
-    {
-      title: "Writers",
-      icon: "/icons/writers.svg",
-      link: "allwriters",
-      role: ["Admin"],
-    },
-    {
-      title: "Help",
-      icon: "/icons/help.svg",
-      link: "allHelp?tab=user",
-      role: ["Admin"],
-    },
-    {
-      title: "Transaction",
-      icon: "/icons/transaction.svg",
-      link: "allTransaction",
-      role: ["Admin"],
-    },
-    {
-      title: "Contact Us",
-      icon: "/icons/contactus.svg",
-      link: "contactus",
-      role: ["Admin"],
-    },
-    {
-      title: "New User",
-      icon: "/icons/addUser.svg",
-      link: "newUser",
-      role: ["Admin"],
-    },
-    {
-      title: "Errors",
-      icon: "/icons/error.svg",
-      link: "errors",
-      role: ["Admin"],
-    },
-    {
-      title: "UTM",
-      icon: "/icons/utm.svg",
-      link: "utm-manager",
-      role: ["Admin"],
-    },
-    {
-      title: "WriteyfyReady",
-      icon: "/icons/marketplace.svg",
-      link: "alllistings",
-      role: ["Admin"],
-    },
-    {
-      title: "Leaderboard",
-      icon: "/icons/leaderboard.svg",
-      link: "leaderboard",
-      role: ["Admin"],
-    },
-    {
-      title: "All Reviews",
-      icon: "/icons/allreviews.svg",
-      link: "reviews",
-      role: ["Admin"],
-    },
-    {
-      title: "PlagReports",
-      icon: "/icons/plagCheck.svg",
-      link: "plagReports",
-      role: ["Admin", "HR"],
     }
   ];
 
@@ -132,7 +53,7 @@ const Page = () => {
           </div>
         </div>
         <div className={style.line}></div>
-        <div className={style.allRedirects} ref={allRedirects}>
+        <div className={style.allRedirects} >
           <div className={style.tracker} ref={tracker}></div>
           {list.map((item, index) => (
             <div
