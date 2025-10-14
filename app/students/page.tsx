@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { User, UsersResponse } from "@/app/students/types/user";
 
 const StudentsPage = () => {
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,26 +121,40 @@ const StudentsPage = () => {
         ) : (
           <>
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              <Table>
+              <Table className="border border-gray-300">
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Full Name</TableHead>
-                    <TableHead>Username</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Phone</TableHead>
-                    <TableHead>Blood Group</TableHead>
+                  <TableRow className="border-b border-gray-300">
+                    <TableHead className="border-r border-gray-300">ID</TableHead>
+                    <TableHead className="border-r border-gray-300">Full Name</TableHead>
+                    <TableHead className="border-r border-gray-300">Username</TableHead>
+                    <TableHead className="border-r border-gray-300">Email</TableHead>
+                    <TableHead className="border-r border-gray-300">Phone</TableHead>
+                    <TableHead className="border-r border-gray-300">Blood Group</TableHead>
+                    <TableHead>View Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell className="font-medium">
+                    <TableRow key={user.id} className="border-b border-gray-300">
+                      <TableCell className="font-medium border-r border-gray-300">
+                        {user.id}
+                      </TableCell>
+                      <TableCell className="font-medium border-r border-gray-300">
                         {`${user.firstName} ${user.lastName}`}
                       </TableCell>
-                      <TableCell>{user.username}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.phone}</TableCell>
-                      <TableCell>{user.bloodGroup}</TableCell>
+                      <TableCell className="border-r border-gray-300">{user.username}</TableCell>
+                      <TableCell className="border-r border-gray-300">{user.email}</TableCell>
+                      <TableCell className="border-r border-gray-300">{user.phone}</TableCell>
+                      <TableCell className="border-r border-gray-300">{user.bloodGroup}</TableCell>
+                      <TableCell>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => router.push(`/students/${user.id}`)}
+                        >
+                          View Details
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
