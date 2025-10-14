@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "@/app/students/types/user";
 import Link from 'next/link';
+import styles from './studentDetails.module.scss';
 
 const StudentDetailsPage = () => {
   const params = useParams();
@@ -20,7 +21,7 @@ const StudentDetailsPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const apiUrl = process.env.NEXT_PUBLIC_USERS_API_URL || 'https://dummyjson.com/users';
+        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/users";
         const response = await fetch(`${apiUrl}/${studentId}`);
         
         if (!response.ok) {
@@ -42,13 +43,18 @@ const StudentDetailsPage = () => {
     }
   }, [studentId]);
 
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
   if (loading) {
     return (
-      <div className="flex">
+      <div className={styles.container}>
         <Sidebar />
-        <div className="flex-1 p-6">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-lg">Loading student details...</div>
+        <div className={styles.content}>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <div className={styles.loadingText}>Loading student details...</div>
           </div>
         </div>
       </div>
@@ -57,16 +63,19 @@ const StudentDetailsPage = () => {
 
   if (error || !student) {
     return (
-      <div className="flex">
+      <div className={styles.container}>
         <Sidebar />
-        <div className="flex-1 p-6">
-          <div className="mb-6">
-            <Link href="/students">
-              <Button variant="outline">← Back to Students</Button>
-            </Link>
-          </div>
-          <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-            {error || 'Student not found'}
+        <div className={styles.content}>
+          <Link href="/students">
+            <Button variant="outline" className={styles.backButton}>
+              ← Back to Students
+            </Button>
+          </Link>
+          <div className={styles.errorContainer}>
+            <div className={styles.errorIcon}>⚠️</div>
+            <div className={styles.errorMessage}>
+              {error || 'Student not found'}
+            </div>
           </div>
         </div>
       </div>
@@ -74,155 +83,264 @@ const StudentDetailsPage = () => {
   }
 
   return (
-    <div className="flex">
+    <div className={styles.container}>
       <Sidebar />
-      <div className="flex-1 p-6">
-        <div className="mb-6">
-          <Link href="/students">
-            <Button variant="outline">← Back to Students</Button>
-          </Link>
-        </div>
+      <div className={styles.content}>
+        {/* Back Button */}
+        <Link href="/students">
+          <Button variant="outline" className={styles.backButton}>
+            ← Back to Students
+          </Button>
+        </Link>
 
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">
-            {student.firstName} {student.lastName}
-          </h1>
-          <p className="text-gray-600">Student ID: {student.id}</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Basic Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span className="font-medium">Full Name:</span>
-                <span>{student.firstName} {student.maidenName} {student.lastName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Username:</span>
-                <span>{student.username}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Age:</span>
-                <span>{student.age}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Gender:</span>
-                <span>{student.gender}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Birth Date:</span>
-                <span>{new Date(student.birthDate).toLocaleDateString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Blood Group:</span>
-                <span>{student.bloodGroup}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span className="font-medium">Email:</span>
-                <span>{student.email}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Phone:</span>
-                <span>{student.phone}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Address:</span>
-                <span className="text-right">
-                  {student.address.address}, {student.address.city}<br />
-                  {student.address.state} {student.address.postalCode}<br />
-                  {student.address.country}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Physical Attributes */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Physical Attributes</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span className="font-medium">Height:</span>
-                <span>{student.height} cm</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Weight:</span>
-                <span>{student.weight} kg</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Eye Color:</span>
-                <span>{student.eyeColor}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Hair:</span>
-                <span>{student.hair.color} {student.hair.type}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Academic Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Academic Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex justify-between">
-                <span className="font-medium">University:</span>
-                <span>{student.university}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Role:</span>
-                <span>{student.role}</span>
-              </div>
-              {student.company && (
-                <>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Company:</span>
-                    <span>{student.company.name}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Department:</span>
-                    <span>{student.company.department}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Title:</span>
-                    <span>{student.company.title}</span>
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Profile Image */}
-        {student.image && (
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>Profile Image</CardTitle>
-            </CardHeader>
-            <CardContent>
+        {/* Hero Section */}
+        <div className={styles.heroSection}>
+          <div className={styles.profileImageContainer}>
+            {student.image ? (
               <img 
                 src={student.image} 
                 alt={`${student.firstName} ${student.lastName}`}
-                className="w-32 h-32 rounded-full object-cover mx-auto"
+                className={styles.profileImage}
               />
-            </CardContent>
-          </Card>
-        )}
+            ) : (
+              <div className={styles.profileImagePlaceholder}>
+                {getInitials(student.firstName, student.lastName)}
+              </div>
+            )}
+            <div className={styles.onlineIndicator}></div>
+          </div>
+          
+          <h1 className={styles.heroTitle}>
+            {student.firstName} {student.lastName}
+          </h1>
+          <p className={styles.heroSubtitle}>{student.university}</p>
+          <p className={styles.heroId}>Student ID: {student.id}</p>
+        </div>
+
+        {/* Main Content - Single Column */}
+        <div className={styles.mainContent}>
+          {/* Basic Information */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIcon}>👤</div>
+              <h3 className={styles.cardTitle}>Basic Information</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>👤</span>
+                  Full Name
+                </span>
+                <span className={styles.value}>
+                  {student.firstName} {student.maidenName} {student.lastName}
+                </span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🏷️</span>
+                  Username
+                </span>
+                <span className={styles.value}>{student.username}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🎂</span>
+                  Age
+                </span>
+                <span className={styles.value}>{student.age} years</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>⚧️</span>
+                  Gender
+                </span>
+                <span className={styles.value}>{student.gender}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>📅</span>
+                  Birth Date
+                </span>
+                <span className={styles.value}>
+                  {new Date(student.birthDate).toLocaleDateString()}
+                </span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🩸</span>
+                  Blood Group
+                </span>
+                <span className={styles.value}>{student.bloodGroup}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Physical Attributes */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIcon}>🏃‍♂️</div>
+              <h3 className={styles.cardTitle}>Physical Attributes</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>📏</span>
+                  Height
+                </span>
+                <span className={styles.value}>{student.height} cm</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>⚖️</span>
+                  Weight
+                </span>
+                <span className={styles.value}>{student.weight} kg</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>👁️</span>
+                  Eye Color
+                </span>
+                <span className={styles.value}>{student.eyeColor}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>💇‍♂️</span>
+                  Hair
+                </span>
+                <span className={styles.value}>
+                  {student.hair.color} {student.hair.type}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIcon}>📧</div>
+              <h3 className={styles.cardTitle}>Contact Information</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>✉️</span>
+                  Email
+                </span>
+                <span className={styles.value}>{student.email}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>�</span>
+                  Phone
+                </span>
+                <span className={styles.value}>{student.phone}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Address */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIcon}>🏠</div>
+              <h3 className={styles.cardTitle}>Address</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🏠</span>
+                  Street
+                </span>
+                <span className={styles.value}>{student.address.address}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🏙️</span>
+                  City
+                </span>
+                <span className={styles.value}>{student.address.city}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🗺️</span>
+                  State
+                </span>
+                <span className={styles.value}>{student.address.state}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>📮</span>
+                  Postal Code
+                </span>
+                <span className={styles.value}>{student.address.postalCode}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🌍</span>
+                  Country
+                </span>
+                <span className={styles.value}>{student.address.country}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Academic Information */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIcon}>🎓</div>
+              <h3 className={styles.cardTitle}>Academic Information</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>�</span>
+                  University
+                </span>
+                <span className={styles.value}>{student.university}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🎭</span>
+                  Role
+                </span>
+                <span className={styles.value}>{student.role}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Company Information */}
+          {student.company && (
+            <div className={styles.infoCard}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardIcon}>🏢</div>
+                <h3 className={styles.cardTitle}>Company Information</h3>
+              </div>
+              <div className={styles.cardContent}>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>
+                    <span className={styles.labelIcon}>🏢</span>
+                    Company
+                  </span>
+                  <span className={styles.value}>{student.company.name}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>
+                    <span className={styles.labelIcon}>🏬</span>
+                    Department
+                  </span>
+                  <span className={styles.value}>{student.company.department}</span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>
+                    <span className={styles.labelIcon}>💼</span>
+                    Title
+                  </span>
+                  <span className={styles.value}>{student.company.title}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
