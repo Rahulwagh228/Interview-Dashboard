@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/useAuth";
 import { LineGraphData, BarGraphData } from "@/tempData";
 import LineChart from "@/components/dashboardComponent/LineChart/LineChart";
 import BarChart from "@/components/dashboardComponent/BarChart/BarChart";
+import KPICards from "@/components/dashboardComponent/KPICards/KPICards";
 
 const Page = () => {
   // Extract data properly from the LineGraphData
@@ -84,6 +85,9 @@ const Page = () => {
             <p className={styles.pageSubtitle}>Welcome to your admin dashboard</p>
           </div>
           
+          {/* KPI Cards Section */}
+          <KPICards />
+          
           <div className={styles.dashboardGrid}>
             <div className={styles.dashboardCard}>
               <h2>Welcome to Your Dashboard</h2>
@@ -114,19 +118,6 @@ const Page = () => {
               </div>
             </div>
             
-            <div className={styles.dashboardCard}>
-              <h3>Quick Stats</h3>
-              <div className={styles.statsGrid}>
-                <div className={styles.statItem}>
-                  <span className={styles.statNumber}>150</span>
-                  <span className={styles.statLabel}>Total Students</span>
-                </div>
-                <div className={styles.statItem}>
-                  <span className={styles.statNumber}>25</span>
-                  <span className={styles.statLabel}>Active Interviews</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </main>
