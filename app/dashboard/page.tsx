@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import styles from "./dashboard.module.scss";
-import { useAuth } from "@/lib/useAuth";
+// import { useAuth } from "@/lib/useAuth";
 import { LineGraphData, BarGraphData } from "@/tempData";
 import LineChart from "@/components/dashboardComponent/LineChart/LineChart";
 import BarChart from "@/components/dashboardComponent/BarChart/BarChart";

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import styles from './KPICards.module.scss';
-import { Calendar, Star, UserX, TrendingUp, Users, Clock } from 'lucide-react';
+import { Calendar, Star, UserX, TrendingUp,} from 'lucide-react';
 
 interface KPICardData {
   title: string;
