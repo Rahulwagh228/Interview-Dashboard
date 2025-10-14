@@ -31,8 +31,8 @@ const Page = () => {
       roles: ["ta_admin", "ta_member"],
     },
     {
-      title: "Interview Panel",
-      icon: "/icons/panelIcon.svg",
+      title: "Interviews",
+      icon: "/icons/interviewIcon.svg",
       link: "panel",
       roles: ["panelist", "ta_admin"],
     },
