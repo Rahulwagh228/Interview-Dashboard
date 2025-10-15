@@ -166,8 +166,8 @@ const StudentsPage = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <Sidebar />
-      <div className="flex-1 p-4 md:p-6">
-        <div className="mb-6">
+      <div className="flex-1 p-3 md:p-6 pb-20 md:pb-6">
+        <div className="mb-4 md:mb-6">
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Students</h1>
           <p className="text-sm md:text-base text-gray-600">Manage and view all students</p>
         </div>
@@ -202,75 +202,45 @@ const StudentsPage = () => {
           </div>
         ) : (
           <>
-            {/* Mobile View */}
-            <div className="block md:hidden">
-              <div className="space-y-4">
-                {users.map((user) => (
-                  <div key={user.id} className="bg-white rounded-lg shadow p-4 border border-gray-300">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="font-semibold text-lg">
-                        {`${user.firstName} ${user.lastName}`}
-                      </div>
-                      <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                        ID: {user.id}
-                      </span>
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <div><span className="font-medium">Username:</span> {user.username}</div>
-                      <div><span className="font-medium">Email:</span> {user.email}</div>
-                      <div><span className="font-medium">Phone:</span> {user.phone}</div>
-                      <div><span className="font-medium">Blood Group:</span> {user.bloodGroup}</div>
-                    </div>
-                    <div className="mt-3">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => router.push(`/students/${user.id}`)}
-                        className="w-full"
-                      >
-                        View Details
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Desktop View */}
-            <div className="hidden md:block bg-white rounded-lg shadow overflow-hidden">
-              <div className="overflow-x-auto">
-                <Table className="border border-gray-300">
+            {/* Unified Table View with horizontal scroll on mobile */}
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100" style={{
+                scrollbarWidth: 'thin',
+                WebkitOverflowScrolling: 'touch'
+              }}>
+                <Table className="border border-gray-300 min-w-full">
                   <TableHeader>
-                    <TableRow className="border-b border-gray-300">
-                      <TableHead className="border-r border-gray-300 min-w-[60px]">ID</TableHead>
-                      <TableHead className="border-r border-gray-300 min-w-[150px]">Full Name</TableHead>
-                      <TableHead className="border-r border-gray-300 min-w-[120px]">Username</TableHead>
-                      <TableHead className="border-r border-gray-300 min-w-[200px]">Email</TableHead>
-                      <TableHead className="border-r border-gray-300 min-w-[130px]">Phone</TableHead>
-                      <TableHead className="border-r border-gray-300 min-w-[100px]">Blood Group</TableHead>
-                      <TableHead className="min-w-[120px]">View Details</TableHead>
+                    <TableRow className="border-b border-gray-300 bg-gray-50">
+                      <TableHead className="border-r border-gray-300 min-w-[60px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">ID</TableHead>
+                      <TableHead className="border-r border-gray-300 min-w-[140px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Full Name</TableHead>
+                      <TableHead className="border-r border-gray-300 min-w-[110px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Username</TableHead>
+                      <TableHead className="border-r border-gray-300 min-w-[180px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Email</TableHead>
+                      <TableHead className="border-r border-gray-300 min-w-[120px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Phone</TableHead>
+                      <TableHead className="border-r border-gray-300 min-w-[80px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Blood Group</TableHead>
+                      <TableHead className="min-w-[100px] text-xs md:text-sm font-semibold text-gray-700 px-2 py-3">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {users.map((user) => (
-                      <TableRow key={user.id} className="border-b border-gray-300">
-                        <TableCell className="font-medium border-r border-gray-300">
+                      <TableRow key={user.id} className="border-b border-gray-300 hover:bg-gray-50 transition-colors">
+                        <TableCell className="font-medium border-r border-gray-300 text-xs md:text-sm px-2 py-3">
                           {user.id}
                         </TableCell>
-                        <TableCell className="font-medium border-r border-gray-300">
+                        <TableCell className="font-medium border-r border-gray-300 text-xs md:text-sm px-2 py-3">
                           {`${user.firstName} ${user.lastName}`}
                         </TableCell>
-                        <TableCell className="border-r border-gray-300">{user.username}</TableCell>
-                        <TableCell className="border-r border-gray-300">{user.email}</TableCell>
-                        <TableCell className="border-r border-gray-300">{user.phone}</TableCell>
-                        <TableCell className="border-r border-gray-300">{user.bloodGroup}</TableCell>
-                        <TableCell>
+                        <TableCell className="border-r border-gray-300 text-xs md:text-sm px-2 py-3">{user.username}</TableCell>
+                        <TableCell className="border-r border-gray-300 text-xs md:text-sm px-2 py-3">{user.email}</TableCell>
+                        <TableCell className="border-r border-gray-300 text-xs md:text-sm px-2 py-3">{user.phone}</TableCell>
+                        <TableCell className="border-r border-gray-300 text-xs md:text-sm px-2 py-3">{user.bloodGroup}</TableCell>
+                        <TableCell className="px-2 py-3">
                           <Button 
                             variant="outline" 
                             size="sm"
                             onClick={() => router.push(`/students/${user.id}`)}
+                            className="text-xs px-2 py-1 h-7 md:text-sm md:px-3 md:py-2 md:h-8 whitespace-nowrap"
                           >
-                            View Details
+                            View
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -278,37 +248,42 @@ const StudentsPage = () => {
                   </TableBody>
                 </Table>
               </div>
+              
+              {/* Mobile scroll hint */}
+              <div className="block md:hidden p-2 text-center bg-gray-50 border-t">
+                <p className="text-xs text-gray-500">← Scroll horizontally to see more columns →</p>
+              </div>
             </div>
 
             {/* Pagination - only show for non-search results */}
             {!isSearching && totalPages > 1 && (
-              <div className="mt-6 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                <div className="text-sm text-gray-700 text-center md:text-left">
+              <div className="mt-6 flex flex-col space-y-3 md:flex-row md:items-center md:justify-between md:space-y-0 bg-white p-4 rounded-lg shadow">
+                <div className="text-xs md:text-sm text-gray-700 text-center md:text-left">
                   Showing {((currentPage - 1) * usersPerPage) + 1} to {Math.min(currentPage * usersPerPage, totalUsers)} of {totalUsers} students
                 </div>
                 
-                <div className="flex items-center space-x-1 md:space-x-2">
+                <div className="flex items-center justify-center space-x-1">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className="text-xs md:text-sm"
+                    className="text-xs px-2 py-1 h-8 md:text-sm md:px-3 md:py-2 md:h-9"
                   >
-                    Previous
+                    Prev
                   </Button>
                   
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 overflow-x-auto max-w-[200px] md:max-w-none">
                     {getVisiblePages().map((page, index) => (
                       <React.Fragment key={index}>
                         {page === '...' ? (
-                          <span className="px-2 md:px-3 py-2 text-gray-500 text-xs md:text-sm">...</span>
+                          <span className="px-1 md:px-2 py-1 text-gray-500 text-xs md:text-sm">...</span>
                         ) : (
                           <Button
                             variant={currentPage === page ? "default" : "outline"}
                             size="sm"
                             onClick={() => handlePageClick(page as number)}
-                            className="text-xs md:text-sm min-w-[32px] md:min-w-[36px]"
+                            className="text-xs px-2 py-1 h-8 min-w-[28px] md:text-sm md:px-3 md:py-2 md:h-9 md:min-w-[36px] flex-shrink-0"
                           >
                             {page}
                           </Button>
@@ -322,7 +297,7 @@ const StudentsPage = () => {
                     size="sm"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="text-xs md:text-sm"
+                    className="text-xs px-2 py-1 h-8 md:text-sm md:px-3 md:py-2 md:h-9"
                   >
                     Next
                   </Button>
