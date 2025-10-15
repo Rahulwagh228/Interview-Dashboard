@@ -33,7 +33,7 @@ const Page = () => {
     },
     {
       title: "Interviews",
-      icon: "/icons/interviewIcon.svg",
+      icon: "/icons/InterviewIcon.svg",
       link: "panel",
       roles: ["panelist", "ta_admin"],
     },

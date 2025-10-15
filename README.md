@@ -32,7 +32,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
 ```
 
 **Required Environment Variables:**
-- `NEXT_PUBLIC_API_BASE_URL`: Base URL for your backend API endpoints
+- NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
 
 ## 📦 Installation & Setup
 
@@ -44,7 +44,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Rahulwagh228/Interview-Dashboard
    cd interview
    ```
 
@@ -53,11 +53,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
    npm install
    # or
    yarn install
-   # or
-   pnpm install
-   # or
-   bun install
-   ```
+ 
 
 3. **Set up environment variables**
    ```bash
@@ -78,10 +74,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
 The application will start on [http://localhost:3000](http://localhost:3000)
@@ -185,7 +178,4 @@ interview/
 - **tw-animate-css** (^1.4.0): Animation utilities
 
 ## 📜 Available Scripts
-
-**add this in env**
-NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
 
