@@ -1,9 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interview Dashboard
 
-## Getting Started
+A modern Next.js dashboard application for managing student interviews with authentication, data visualization, and feedback management.
 
-First, run the development server:
+## ✨ Features
 
+- **Authentication System**: Secure login with token-based authentication
+- **Dashboard**: Interactive charts and KPI cards with data visualization
+- **Student Management**: View, search, and manage student profiles
+- **Feedback System**: Submit and manage interview feedback
+- **Responsive Design**: Mobile-friendly interface with modern UI components
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 15.5.5 with App Router
+- **Language**: TypeScript
+- **Styling**: SCSS + Tailwind CSS
+- **Charts**: Chart.js with React Chart.js 2
+- **UI Components**: Radix UI primitives
+- **Form Handling**: Formik with Yup validation
+- **Icons**: Lucide React
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the root directory and add the following environment variables:
+
+```env
+# API Configuration
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
+
+# Optional: Add other environment variables as needed
+# NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+**Required Environment Variables:**
+- `NEXT_PUBLIC_API_BASE_URL`: Base URL for your backend API endpoints
+
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js (version 18 or higher)
+- npm, yarn, pnpm, or bun package manager
+
+### Step-by-step Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd interview
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   # Create environment file
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+4. **Verify installation**
+   ```bash
+   npm run lint
+   ```
+
+## 🚀 Running the Application
+
+### Development Mode
 ```bash
 npm run dev
 # or
@@ -14,23 +84,108 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will start on [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
+```bash
+# Build the application
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Start production server
+npm run start
+```
 
-## Learn More
+### Development Features
+- **Turbopack**: Enabled for faster development builds
+- **Hot Reload**: Automatic page refresh on file changes
+- **TypeScript**: Full type checking and IntelliSense support
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The project follows a co-located file structure where components and their styles are kept in the same folder:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+interview/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API routes
+│   │   └── auth/login/           # Authentication endpoints
+│   ├── dashboard/                # Dashboard page
+│   │   ├── page.tsx              # Dashboard component
+│   │   └── dashboard.module.scss # Dashboard styles
+│   ├── login/                    # Login page
+│   │   ├── page.tsx              # Login component
+│   │   └── login.scss            # Login styles
+│   ├── students/                 # Student management
+│   │   ├── page.tsx              # Students list
+│   │   ├── [id]/                 # Dynamic student details
+│   │   │   ├── page.tsx          # Student detail page
+│   │   │   ├── studentDetails.module.scss
+│   │   │   └── FeedbackForm/     # Feedback component
+│   │   └── types/                # Type definitions
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Home page
+│
+├── components/                   # Reusable components
+│   ├── common/                   # Shared components
+│   │   ├── InfoCard.tsx          # Card component
+│   │   └── InfoCard.module.scss  # Card styles
+│   ├── dashboardComponent/       # Dashboard-specific components
+│   │   ├── BarChart/            # Bar chart component
+│   │   ├── LineChart/           # Line chart component
+│   │   └── KPICards/            # KPI cards component
+│   ├── loginPageComponent/       # Login page components
+│   ├── sidebar/                  # Sidebar navigation
+│   ├── studentDetails/          # Student detail components
+│   └── ui/                      # UI primitives (shadcn/ui)
+│
+├── lib/                         # Utility functions
+│   ├── useAuth.ts               # Authentication hook
+│   ├── useDebounce.ts           # Debounce hook
+│   └── utils.ts                 # General utilities
+│
+├── public/                      # Static assets
+│   ├── icons/                   # SVG icons
+│   ├── images/                  # Images
+│   └── fonts/                   # Custom fonts
+│
+├── tempData.ts                  # Temporary data for development
+└── Configuration files...
+```
 
-## Deploy on Vercel
+### File Organization Philosophy
+- **Co-location**: Components and their styles are in the same folder
+- **Feature-based**: Related functionality grouped together
+- **Type Safety**: TypeScript definitions alongside components
+- **Modular SCSS**: Component-specific styling with CSS modules
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📚 Libraries Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Core Dependencies
+- **Next.js** (15.5.5): React framework with App Router
+- **React** (19.1.0): UI library
+- **TypeScript** (^5): Type safety and development experience
+- **Sass** (^1.93.2): SCSS preprocessing
+
+### UI & Styling
+- **Tailwind CSS** (^4): Utility-first CSS framework
+- **shadcn/ui**: Copy-paste component library built on Radix UI and Tailwind CSS
+- **lucide-react** (^0.545.0): Icon library
+
+### Charts & Data Visualization
+- **chart.js** (^4.5.1): Chart library
+- **react-chartjs-2** (^5.3.0): React wrapper for Chart.js
+
+### Form Handling
+- **formik** (^2.4.6): Form library
+
+
+### Development Tools
+- **@tailwindcss/postcss** (^4): PostCSS integration
+- **tw-animate-css** (^1.4.0): Animation utilities
+
+## 📜 Available Scripts
+
+**add this in env**
+NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
+
