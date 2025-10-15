@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { CircleUserRound, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/useAuth";
 import LogoutModal from "./LogoutModal";
+import Image from "next/image";
 
 const Page = () => {
   const path = usePathname();
@@ -107,7 +108,8 @@ const Page = () => {
         <div className={style.logoName} onClick={() => {
           router.push("/dashboard")
         }}>
-          <CircleUserRound size={24} color="white" />
+          {/* <CircleUserRound size={24} color="white" /> */}
+          <Image src="/icons/Logo2.svg" alt="Logo"  height={40} width={60}/>
           <div className={style.absOverflow}>
             <div className={style.line}></div>
             <span>{getRoleDisplayName()}</span>
