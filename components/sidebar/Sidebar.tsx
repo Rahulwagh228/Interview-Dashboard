@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./sidebar.module.scss";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { CircleUserRound, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAuth } from "@/lib/useAuth";
 import LogoutModal from "./LogoutModal";
 import Image from "next/image";
@@ -142,7 +142,7 @@ const Page = () => {
                   }}
                   className={style.logo}
                 >
-                  <img src={item.icon} alt={item.title} />
+                  <Image src={item.icon} alt={item.title} width={20} height={20} />
                   <span>{item.title}</span>
                 </div>
               </abbr>

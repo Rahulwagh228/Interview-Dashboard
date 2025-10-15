@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -103,7 +104,8 @@ const StudentDetailsPage = () => {
       });
       
       setDialogOpen(false);
-    } catch (err) {
+    } catch (error) {
+      console.error('Restriction error:', error);
       toast.error("Error", {
         description: "Something went wrong. Please try again.",
         duration: 3000,
@@ -163,10 +165,13 @@ const StudentDetailsPage = () => {
         <div className={styles.heroSection}>
           <div className={styles.profileImageContainer}>
             {student.image ? (
-              <img 
+              <Image 
                 src={student.image} 
                 alt={`${student.firstName} ${student.lastName}`}
                 className={styles.profileImage}
+                width={120}
+                height={120}
+                priority
               />
             ) : (
               <div className={styles.profileImagePlaceholder}>
