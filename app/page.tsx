@@ -5,6 +5,11 @@ import styles from './page.module.scss'
 const page = () => {
   return (
     <div className={styles.homepage}>
+      {/* Happy Diwali Message */}
+      <div className={styles.diwaliMessage}>
+        Happy Diwali
+      </div>
+
       {/* Background with overlay */}
       <div className={styles.backgroundContainer}>
       </div>
