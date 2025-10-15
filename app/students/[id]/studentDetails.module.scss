@@ -131,6 +131,70 @@
   font-size: 0.9rem;
   opacity: 0.8;
   color: rgba(255, 255, 255, 0.8); // Ensure text is visible
+  margin-bottom: 15px;
+}
+
+// Restriction Badge
+.restrictionBadge {
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 10px 0;
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+// Admin Controls
+.adminControls {
+  margin-top: 15px;
+  
+  .restrictButton {
+    min-width: 160px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+// Dialog Styles
+.dialogContent {
+  background: linear-gradient(135deg, #858585 0%, #1f2937 100%);
+  color: white;
+  border: none;
+  
+  .dialogHeader {
+    margin-bottom: 20px;
+    
+    h2 { // DialogTitle
+      color: white;
+      font-weight: 600;
+    }
+    
+    p { // DialogDescription
+      color: rgba(255, 255, 255, 0.9);
+      opacity: 0.9;
+    }
+  }
+  
+  .dialogFooter {
+    gap: 10px;
+    
+    button {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
 }
 
 // Content Area - Flex wrap layout for cards
@@ -234,6 +298,16 @@
       text-align: right;
       flex: 1;
       margin-left: 15px;
+    }
+
+    .restrictedStatus {
+      color: #ef4444 !important;
+      font-weight: 600;
+    }
+
+    .activeStatus {
+      color: #10b981 !important;
+      font-weight: 600;
     }
 
     @media (max-width: 480px) {

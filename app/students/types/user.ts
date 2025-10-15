@@ -67,6 +67,7 @@ export interface User {
     network: string;
   };
   role: string;
+  isRestricted?: boolean; // New field for restriction status
 }
 
 export interface UsersResponse {

@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { User } from "@/app/students/types/user";
+import { useAuth } from "@/lib/useAuth";
+import { toast } from "sonner";
 import Link from 'next/link';
 import styles from './studentDetails.module.scss';
 
@@ -15,6 +17,11 @@ const StudentDetailsPage = () => {
   const [student, setStudent] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRestricting, setIsRestricting] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  
+  const { getUserRole } = useAuth();
+  const isAdmin = getUserRole() === 'ta_admin';
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -29,6 +36,8 @@ const StudentDetailsPage = () => {
         }
         
         const data: User = await response.json();
+        // Add demo restriction status based on student ID
+        data.isRestricted = data.id % 5 === 0; // Every 5th student is restricted for demo
         setStudent(data);
       } catch (err) {
         setError('Failed to fetch student details. Please try again.');
@@ -45,6 +54,32 @@ const StudentDetailsPage = () => {
 
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
+  const handleRestrictStudent = async () => {
+    if (!student || !isAdmin) return;
+    
+    try {
+      setIsRestricting(true);
+      
+      // Simulate a brief loading time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show toast notification instead of making API call
+      toast.info("Feature Coming Soon", {
+        description: "Student restriction functionality will be implemented in a future update.",
+        duration: 4000,
+      });
+      
+      setDialogOpen(false);
+    } catch (err) {
+      toast.error("Error", {
+        description: "Something went wrong. Please try again.",
+        duration: 3000,
+      });
+    } finally {
+      setIsRestricting(false);
+    }
   };
 
   if (loading) {
@@ -115,6 +150,61 @@ const StudentDetailsPage = () => {
           </h1>
           <p className={styles.heroSubtitle}>{student.university}</p>
           <p className={styles.heroId}>Student ID: {student.id}</p>
+          
+          {/* Restriction Status */}
+          {student.isRestricted && (
+            <div className={styles.restrictionBadge}>
+              🚫 Restricted Student
+            </div>
+          )}
+          
+          {/* Admin Controls */}
+          {isAdmin && (
+            <div className={styles.adminControls}>
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant={student.isRestricted ? "default" : "destructive"}
+                    className={styles.restrictButton}
+                  >
+                    {student.isRestricted ? "🔓 Unrestrict Student" : "🚫 Restrict Student"}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className={styles.dialogContent}>
+                  <DialogHeader>
+                    <DialogTitle>
+                      {student.isRestricted ? "Unrestrict Student" : "Restrict Student"}
+                    </DialogTitle>
+                    <DialogDescription>
+                      {student.isRestricted 
+                        ? `This is a demo feature. In the actual implementation, this would unrestrict ${student.firstName} ${student.lastName} and restore their system access.`
+                        : `This is a demo feature. In the actual implementation, this would restrict ${student.firstName} ${student.lastName} and limit their system access.`
+                      }
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setDialogOpen(false)}
+                      disabled={isRestricting}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      variant={student.isRestricted ? "default" : "destructive"}
+                      onClick={handleRestrictStudent}
+                      disabled={isRestricting}
+                    >
+                      {isRestricting 
+                        ? "Loading..." 
+                        : "Restrict"
+                      }
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </div>
 
         {/* Main Content - Single Column */}
@@ -171,6 +261,15 @@ const StudentDetailsPage = () => {
                   Blood Group
                 </span>
                 <span className={styles.value}>{student.bloodGroup}</span>
+              </div>
+              <div className={styles.infoRow}>
+                <span className={styles.label}>
+                  <span className={styles.labelIcon}>🚫</span>
+                  Account Status
+                </span>
+                <span className={`${styles.value} ${student.isRestricted ? styles.restrictedStatus : styles.activeStatus}`}>
+                  {student.isRestricted ? "Restricted" : "Active"}
+                </span>
               </div>
             </div>
           </div>
