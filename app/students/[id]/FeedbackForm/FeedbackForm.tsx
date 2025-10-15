@@ -54,20 +54,39 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     { setSubmitting, resetForm }: FormikHelpers<FeedbackFormValues>
   ) => {
     try {
-      // Simulate API call
-      console.log('Submitting feedback:', {
-        studentId,
-        studentName,
-        ...values,
+      // Get API base URL from environment variables
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+      
+      // Prepare the feedback data for submission
+      const feedbackData = {
+        title: `Feedback for ${studentName} (ID: ${studentId})`,
+        // body: `Overall Score: ${values.overallScore}/10\n\nStrengths:\n${values.strengths}\n\nAreas for Improvement:\n${values.areasForImprovement}`,
+        userId: parseInt(studentId), // Use studentId as userId
+        overallScore: values.overallScore,
+        strengths: values.strengths,
+        areasForImprovement: values.areasForImprovement,
         submittedAt: new Date().toISOString(),
+      };
+
+      // Make API call to submit feedback
+      const response = await fetch(`${apiBaseUrl}/posts/add`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(feedbackData)
       });
 
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Feedback submission successful:', result);
 
       // Show success message
       toast.success("Feedback Submitted Successfully!", {
-        description: `Feedback for ${studentName} has been saved.`,
+        description: `Feedback for ${studentName} has been saved with ID: ${result.id}`,
         duration: 4000,
       });
 
@@ -80,7 +99,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
     } catch (error) {
       console.error('Error submitting feedback:', error);
       toast.error("Submission Failed", {
-        description: "Please try again later.",
+        description: error instanceof Error ? error.message : "Please try again later.",
         duration: 3000,
       });
     } finally {
@@ -115,7 +134,8 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
           touched, 
           values, 
           isValid, 
-          dirty 
+          dirty,
+          resetForm 
         }) => (
           <Form className={styles.form}>
             {/* Overall Score Field */}
@@ -250,7 +270,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({
               <Button 
                 type="button" 
                 variant="outline"
-                onClick={() => window.location.reload()}
+                onClick={() => resetForm()}
                 disabled={isSubmitting}
                 className={styles.cancelButton}
               >
