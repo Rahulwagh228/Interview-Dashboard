@@ -9,6 +9,8 @@ import { User } from "@/app/students/types/user";
 import { useAuth } from "@/lib/useAuth";
 import { toast } from "sonner";
 import Link from 'next/link';
+import InfoCard, { InfoRow } from "@/components/common/InfoCard";
+import cardStyles from "@/components/common/InfoCard.module.scss";
 import styles from './studentDetails.module.scss';
 
 const StudentDetailsPage = () => {
@@ -210,234 +212,145 @@ const StudentDetailsPage = () => {
         {/* Main Content - Single Column */}
         <div className={styles.mainContent}>
           {/* Basic Information */}
-          <div className={styles.infoCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>👤</div>
-              <h3 className={styles.cardTitle}>Basic Information</h3>
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>👤</span>
-                  Full Name
-                </span>
-                <span className={styles.value}>
-                  {student.firstName} {student.maidenName} {student.lastName}
-                </span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🏷️</span>
-                  Username
-                </span>
-                <span className={styles.value}>{student.username}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🎂</span>
-                  Age
-                </span>
-                <span className={styles.value}>{student.age} years</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>⚧️</span>
-                  Gender
-                </span>
-                <span className={styles.value}>{student.gender}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>📅</span>
-                  Birth Date
-                </span>
-                <span className={styles.value}>
-                  {new Date(student.birthDate).toLocaleDateString()}
-                </span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🩸</span>
-                  Blood Group
-                </span>
-                <span className={styles.value}>{student.bloodGroup}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🚫</span>
-                  Account Status
-                </span>
-                <span className={`${styles.value} ${student.isRestricted ? styles.restrictedStatus : styles.activeStatus}`}>
-                  {student.isRestricted ? "Restricted" : "Active"}
-                </span>
-              </div>
-            </div>
-          </div>
+          <InfoCard icon="👤" title="Basic Information">
+            <InfoRow
+              icon="👤"
+              label="Full Name"
+              value={`${student.firstName} ${student.maidenName} ${student.lastName}`}
+            />
+            <InfoRow
+              icon="🏷️"
+              label="Username"
+              value={student.username}
+            />
+            <InfoRow
+              icon="🎂"
+              label="Age"
+              value={`${student.age} years`}
+            />
+            <InfoRow
+              icon="⚧️"
+              label="Gender"
+              value={student.gender}
+            />
+            <InfoRow
+              icon="📅"
+              label="Birth Date"
+              value={new Date(student.birthDate).toLocaleDateString()}
+            />
+            <InfoRow
+              icon="🩸"
+              label="Blood Group"
+              value={student.bloodGroup}
+            />
+            <InfoRow
+              icon="🚫"
+              label="Account Status"
+              value={student.isRestricted ? "Restricted" : "Active"}
+              className={student.isRestricted ? cardStyles.restrictedStatus : cardStyles.activeStatus}
+            />
+          </InfoCard>
 
           {/* Physical Attributes */}
-          <div className={styles.infoCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>🏃‍♂️</div>
-              <h3 className={styles.cardTitle}>Physical Attributes</h3>
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>📏</span>
-                  Height
-                </span>
-                <span className={styles.value}>{student.height} cm</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>⚖️</span>
-                  Weight
-                </span>
-                <span className={styles.value}>{student.weight} kg</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>👁️</span>
-                  Eye Color
-                </span>
-                <span className={styles.value}>{student.eyeColor}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>💇‍♂️</span>
-                  Hair
-                </span>
-                <span className={styles.value}>
-                  {student.hair.color} {student.hair.type}
-                </span>
-              </div>
-            </div>
-          </div>
+          <InfoCard icon="🏃‍♂️" title="Physical Attributes">
+            <InfoRow
+              icon="📏"
+              label="Height"
+              value={`${student.height} cm`}
+            />
+            <InfoRow
+              icon="⚖️"
+              label="Weight"
+              value={`${student.weight} kg`}
+            />
+            <InfoRow
+              icon="👁️"
+              label="Eye Color"
+              value={student.eyeColor}
+            />
+            <InfoRow
+              icon="💇‍♂️"
+              label="Hair"
+              value={`${student.hair.color} ${student.hair.type}`}
+            />
+          </InfoCard>
 
           {/* Contact Information */}
-          <div className={styles.infoCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>📧</div>
-              <h3 className={styles.cardTitle}>Contact Information</h3>
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>✉️</span>
-                  Email
-                </span>
-                <span className={styles.value}>{student.email}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>�</span>
-                  Phone
-                </span>
-                <span className={styles.value}>{student.phone}</span>
-              </div>
-            </div>
-          </div>
+          <InfoCard icon="📧" title="Contact Information">
+            <InfoRow
+              icon="✉️"
+              label="Email"
+              value={student.email}
+            />
+            <InfoRow
+              icon="📞"
+              label="Phone"
+              value={student.phone}
+            />
+          </InfoCard>
 
           {/* Address */}
-          <div className={styles.infoCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>🏠</div>
-              <h3 className={styles.cardTitle}>Address</h3>
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🏠</span>
-                  Street
-                </span>
-                <span className={styles.value}>{student.address.address}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🏙️</span>
-                  City
-                </span>
-                <span className={styles.value}>{student.address.city}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🗺️</span>
-                  State
-                </span>
-                <span className={styles.value}>{student.address.state}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>📮</span>
-                  Postal Code
-                </span>
-                <span className={styles.value}>{student.address.postalCode}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🌍</span>
-                  Country
-                </span>
-                <span className={styles.value}>{student.address.country}</span>
-              </div>
-            </div>
-          </div>
+          <InfoCard icon="🏠" title="Address">
+            <InfoRow
+              icon="🏠"
+              label="Street"
+              value={student.address.address}
+            />
+            <InfoRow
+              icon="🏙️"
+              label="City"
+              value={student.address.city}
+            />
+            <InfoRow
+              icon="🗺️"
+              label="State"
+              value={student.address.state}
+            />
+            <InfoRow
+              icon="📮"
+              label="Postal Code"
+              value={student.address.postalCode}
+            />
+            <InfoRow
+              icon="🌍"
+              label="Country"
+              value={student.address.country}
+            />
+          </InfoCard>
 
           {/* Academic Information */}
-          <div className={styles.infoCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>🎓</div>
-              <h3 className={styles.cardTitle}>Academic Information</h3>
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>�</span>
-                  University
-                </span>
-                <span className={styles.value}>{student.university}</span>
-              </div>
-              <div className={styles.infoRow}>
-                <span className={styles.label}>
-                  <span className={styles.labelIcon}>🎭</span>
-                  Role
-                </span>
-                <span className={styles.value}>{student.role}</span>
-              </div>
-            </div>
-          </div>
+          <InfoCard icon="🎓" title="Academic Information">
+            <InfoRow
+              icon="🏫"
+              label="University"
+              value={student.university}
+            />
+            <InfoRow
+              icon="🎭"
+              label="Role"
+              value={student.role}
+            />
+          </InfoCard>
 
           {/* Company Information */}
           {student.company && (
-            <div className={styles.infoCard}>
-              <div className={styles.cardHeader}>
-                <div className={styles.cardIcon}>🏢</div>
-                <h3 className={styles.cardTitle}>Company Information</h3>
-              </div>
-              <div className={styles.cardContent}>
-                <div className={styles.infoRow}>
-                  <span className={styles.label}>
-                    <span className={styles.labelIcon}>🏢</span>
-                    Company
-                  </span>
-                  <span className={styles.value}>{student.company.name}</span>
-                </div>
-                <div className={styles.infoRow}>
-                  <span className={styles.label}>
-                    <span className={styles.labelIcon}>🏬</span>
-                    Department
-                  </span>
-                  <span className={styles.value}>{student.company.department}</span>
-                </div>
-                <div className={styles.infoRow}>
-                  <span className={styles.label}>
-                    <span className={styles.labelIcon}>💼</span>
-                    Title
-                  </span>
-                  <span className={styles.value}>{student.company.title}</span>
-                </div>
-              </div>
-            </div>
+            <InfoCard icon="🏢" title="Company Information">
+              <InfoRow
+                icon="🏢"
+                label="Company"
+                value={student.company.name}
+              />
+              <InfoRow
+                icon="🏬"
+                label="Department"
+                value={student.company.department}
+              />
+              <InfoRow
+                icon="💼"
+                label="Title"
+                value={student.company.title}
+              />
+            </InfoCard>
           )}
         </div>
       </div>
