@@ -28,7 +28,7 @@ const Page = () => {
       title: "All Students",
       icon: "/icons/studentsIcon.svg",
       link: "students",
-      roles: ["ta_admin", "ta_member"],
+      roles: ["ta_admin", "panelist", "ta_member"],
     },
     {
       title: "Interviews",
