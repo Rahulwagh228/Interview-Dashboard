@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import Link from 'next/link';
 import InfoCard, { InfoRow } from "@/components/common/InfoCard";
 import cardStyles from "@/components/common/InfoCard.module.scss";
+import FeedbackForm from "./FeedbackForm/FeedbackForm";
 import styles from './studentDetails.module.scss';
 
 const StudentDetailsPage = () => {
@@ -23,7 +24,9 @@ const StudentDetailsPage = () => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   
   const { getUserRole } = useAuth();
-  const isAdmin = getUserRole() === 'ta_admin';
+  const userRole = getUserRole();
+  const isAdmin = userRole === 'ta_admin';
+  const isPanelist = userRole === 'panelist';
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -353,6 +356,18 @@ const StudentDetailsPage = () => {
             </InfoCard>
           )}
         </div>
+
+        {/* Feedback Form - Only visible to panelists */}
+        {isPanelist && (
+          <FeedbackForm 
+            studentId={studentId}
+            studentName={`${student.firstName} ${student.lastName}`}
+            onSubmissionSuccess={() => {
+              // Optional: Add any additional logic after successful submission
+              console.log('Feedback submitted successfully');
+            }}
+          />
+        )}
       </div>
     </div>
   );
