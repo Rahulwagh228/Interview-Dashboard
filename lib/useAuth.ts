@@ -9,7 +9,7 @@ interface UserData {
   firstName?: string;
   lastName?: string;
   role: 'ta_member' | 'ta_admin' | 'panelist';
-  token?: string;
+  accessToken?: string;
 }
 
 export const useAuth = () => {
@@ -43,7 +43,11 @@ export const useAuth = () => {
   };
 
   const isAuthenticated = (): boolean => {
-    return !!user;
+    return !!(user && user.accessToken);
+  };
+
+  const hasValidToken = (): boolean => {
+    return !!(user?.accessToken);
   };
 
 
@@ -82,6 +86,7 @@ export const useAuth = () => {
     isLoading,
     getUserRole,
     isAuthenticated,
+    hasValidToken,
     logout,
     getRoleDisplayName,
     getUserDisplayName

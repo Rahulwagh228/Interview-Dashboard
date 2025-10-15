@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { useRouter } from 'next/navigation'
 import TestCredentialsCard from '@/components/loginPageComponent/TestCredentialsCard'
 import { testCredentials, type Credential } from '@/components/loginPageComponent/testCredentials'
+import { useAuth } from '@/lib/useAuth'
 
 
 const LoginPage = () => {
@@ -24,6 +25,27 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
+  const { isAuthenticated, hasValidToken, isLoading, user } = useAuth();
+
+  // Redirect to dashboard if user is already authenticated
+  useEffect(() => {
+    if (!isLoading && hasValidToken()) {
+      toast.info('You are already logged in. Redirecting to dashboard...');
+      router.push('/dashboard');
+    }
+  }, [isLoading, hasValidToken, router]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
