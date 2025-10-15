@@ -1,0 +1,115 @@
+.panelContainer {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.mainContent {
+  flex: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .mainContent {
+    margin-left: 16rem; /* 64 * 0.25rem = 16rem */
+  }
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.headerTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.headerDescription {
+  color: #6b7280;
+}
+
+.comingSoonCard {
+  max-width: 42rem;
+  margin: 0 auto;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: none;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.iconContainer {
+  margin: 0 auto 1rem auto;
+  padding: 0.75rem;
+  background-color: #fed7aa;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .statusGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.featureCard {
+  background-color: #dbeafe;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.statusCard {
+  background-color: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.noteSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dbeafe 0%, #c7d2fe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  border: 2px solid #d1d5db;
+  border-top-color: #111827;
+  margin: 0 auto;
+}
+
+.loadingText {
+  margin-top: 0.5rem;
+  color: #6b7280;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
