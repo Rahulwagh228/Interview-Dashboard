@@ -30,7 +30,7 @@ const page = () => {
       <div className={styles.content}>
         <div className={styles.heroSection}>
           <h1 className={styles.mainHeading}>
-            "No employee is perfect at first — when you start giving chances, they become your best hire."
+            &ldquo;No employee is perfect at first — when you start giving chances, they become your best hire.&rdquo;
           </h1>
           
           <p className={styles.subText}>
