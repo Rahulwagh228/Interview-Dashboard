@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -16,6 +16,7 @@ import styles from './studentDetails.module.scss';
 
 const StudentDetailsPage = () => {
   const params = useParams();
+  const router = useRouter();
   const studentId = params.id as string;
   const [student, setStudent] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,11 +24,19 @@ const StudentDetailsPage = () => {
   const [isRestricting, setIsRestricting] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   
-  const { getUserRole } = useAuth();
+  const { getUserRole, hasValidToken, isLoading } = useAuth();
   const userRole = getUserRole();
   const isAdmin = userRole === 'ta_admin';
   const isPanelist = userRole === 'panelist';
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !hasValidToken()) {
+      router.push('/login');
+    }
+  }, [isLoading, hasValidToken, router]);
+
+  // Fetch student data
   useEffect(() => {
     const fetchStudent = async () => {
       try {
@@ -56,6 +65,23 @@ const StudentDetailsPage = () => {
       fetchStudent();
     }
   }, [studentId]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if not authenticated (redirect is in progress)
+  if (!hasValidToken()) {
+    return null;
+  }
 
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();

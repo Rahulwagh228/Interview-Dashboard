@@ -7,11 +7,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/lib/useDebounce";
+import { useAuth } from "@/lib/useAuth";
 // import { fetchUsers } from "@/lib/api";
 import { User, UsersResponse } from "@/app/students/types/user";
 
 const StudentsPage = () => {
   const router = useRouter();
+  const { hasValidToken, isLoading } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,22 +26,29 @@ const StudentsPage = () => {
   const usersPerPage = 10;
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-   async function fetchUsers(limit: number = 30, skip: number = 0): Promise<UsersResponse> {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/users";
-    const response = await fetch(`${apiUrl}?limit=${limit}&skip=${skip}`);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !hasValidToken()) {
+      router.push('/login');
     }
-    
-    const data: UsersResponse = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    throw error;
+  }, [isLoading, hasValidToken, router]);
+
+  async function fetchUsers(limit: number = 30, skip: number = 0): Promise<UsersResponse> {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL + "/users";
+      const response = await fetch(`${apiUrl}?limit=${limit}&skip=${skip}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data: UsersResponse = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw error;
+    }
   }
-}
 
   async function searchUsers(query: string): Promise<UsersResponse> {
     try {
@@ -94,6 +103,23 @@ const StudentsPage = () => {
       loadUsers(currentPage);
     }
   }, [debouncedSearchQuery, currentPage, loadUsers]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if not authenticated (redirect is in progress)
+  if (!hasValidToken()) {
+    return null;
+  }
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
