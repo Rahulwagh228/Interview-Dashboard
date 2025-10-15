@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* Custom Font Declarations */
+@font-face {
+  font-family: 'Shadows Into Light';
+  src: url('/fonts/ShadowsIntoLight-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Dancing Script';
+  src: url('/fonts/DancingScript-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
